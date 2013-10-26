@@ -1,0 +1,15 @@
+.settings/
+diagrams/*
+target/*
+
+*.sql
+*.jar
+*.war
+
+.idea/*
+*.iml
+
+.classpath
+.project
+.springBeans
+login.properties
