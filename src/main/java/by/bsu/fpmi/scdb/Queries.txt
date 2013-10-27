@@ -1,0 +1,11 @@
+@Table(name="chessplayer")
+@NamedNativeQueries({
+    @NamedNativeQuery(name="Chessplayer.findWithUnpaidFees",
+                      query="SELECT c.* FROM chessplayer c, member_fees mf WHERE mf.year=YEAR(CURDATE()) AND mf.chessplayer_id=c.id")
+})
+
+@Table(name="game")
+@NamedQueries ({
+    @NamedQuery(name = "Game.findByPlayersName",
+                query = "SELECT g FROM Game g WHERE g.whitePlayer.lastname=:player OR g.blackPlayer.lastname=:player")
+})
