@@ -12,10 +12,11 @@
 
     <properties>
         <java.version>1.6</java.version>
-        <spring.version>3.2.0.RELEASE</spring.version>
+        <spring.version>3.1.4.RELEASE</spring.version>
         <cglib.version>3.0</cglib.version>
         <hibernate.version>4.2.6.Final</hibernate.version>
         <mysql.conn.version>5.1.26</mysql.conn.version>
+        <jackson.version>1.9.13</jackson.version>
     </properties>
 
     <dependencies>
@@ -38,6 +39,13 @@
             <version>${spring.version}</version>
             <!--<type>jar</type>-->
             <scope>compile</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+            <version>2.3</version>
+            <scope>runtime</scope>
         </dependency>
 
         <!--<dependency>
@@ -110,6 +118,20 @@
             <artifactId>hibernate-validator</artifactId>
             <version>4.3.1.Final</version>
         </dependency>
+
+        <!-- JSON ->
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-core-asl</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.codehaus.jackson</groupId>
+            <artifactId>jackson-mapper-asl</artifactId>
+            <version>${jackson.version}</version>
+        </dependency>
+        <!- End JSON -->
    </dependencies>
 
 
@@ -144,7 +166,6 @@
                     <inherited>true</inherited>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
-                    <version>2.5.1</version>
                     <configuration>
                         <source>${java.version}</source>
                         <target>${java.version}</target>
@@ -153,7 +174,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-pmd-plugin</artifactId>
-                    <version>3.0.1</version>
                     <configuration>
                         <targetJdk>${java.version}</targetJdk>
                         <verbose>true</verbose>
@@ -163,7 +183,6 @@
                 <plugin>
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
                     <configuration>
                         <webXml>src/main/webapp/WEB-INF/web.xml</webXml>
                         <archive>
@@ -215,7 +234,6 @@
                 <plugin>
                     <groupId>org.apache.tomcat.maven</groupId>
                     <artifactId>tomcat7-maven-plugin</artifactId>
-                    <version>2.1</version>
                     <configuration>
                         <url>http://localhost:8080/manager/text</url>
                         <username>tomcat</username>
@@ -235,7 +253,6 @@
                 <plugins>
                     <plugin>
                         <artifactId>maven-war-plugin</artifactId>
-                        <version>2.4</version>
                         <configuration>
                             <outputDirectory>webapps</outputDirectory>
                             <warName>ROOT</warName>

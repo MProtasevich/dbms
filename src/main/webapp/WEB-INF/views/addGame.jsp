@@ -6,24 +6,7 @@
     <!--<script src="/resources/js/management.js"></script>-->
     <script type="text/javascript" src="${contextPath}resources/js/management.js"></script>
 
-    <style type="text/css">
-        hr {
-            -moz-border-bottom-colors: none;
-            -moz-border-image: none;
-            -moz-border-left-colors: none;
-            -moz-border-right-colors: none;
-            -moz-border-top-colors: none;
-            border-color: #909090;
-            border-style: solid none;
-            border-width: 1px 0;
-            margin: 18px 0;
-        }
-
-        hr.answer {
-            border-color: #cccccc;
-            width: 30%;
-        }
-    </style>
+    <style type="text/css" src="${contextPath}resources/css/line.css"></style>
 </head>
 
 <body>

@@ -52,4 +52,7 @@
     </bean>
 
     <!-- <bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" /> -->
+
+    <!-- Need to understand how @JsonManagedReference and JsonBackReference works -->
+    <!-- <bean class="org.springframework.web.servlet.view.json.MappingJacksonJsonView" /> -->
 </beans>

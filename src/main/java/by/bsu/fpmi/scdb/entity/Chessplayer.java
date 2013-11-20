@@ -10,9 +10,6 @@ import java.util.Date;
 import java.util.List;
 
 
-/**
- * The persistent class for the chessplayer database table.
- */
 @Entity
 @Table(name="chessplayer")
 @NamedQueries({
@@ -20,7 +17,15 @@ import java.util.List;
             query = "SELECT c FROM Chessplayer c"),
     @NamedQuery(name = "Chessplayer.getById",
                 query = "SELECT c FROM Chessplayer c WHERE c.id=:id")*/
+    /*@NamedQuery(name = "Chessplayer.findFiveOldest",
+                query =
+    "SELECT NEW " +
+       "result.ChessplayerWithWinnings" +
+          "(c.forename, c.surname, c.category.typeOfCategory, c.birthdate, t.firstPlaceWinnings * (t.firstPlacePlayer=c.id)) " +
+
+    "FROM Chessplayer c JOIN Tournament t")*/
 })
+
 @NamedNativeQueries({
     @NamedNativeQuery(name = "Chessplayer.findAll",
         query = "SELECT * FROM chessplayer",
@@ -36,22 +41,18 @@ import java.util.List;
         resultClass = Chessplayer.class),
 
     @NamedNativeQuery(name="Chessplayer.findFiveOldest",
+        query=
+          "SELECT c.forename, c.surname, c.birthdate, t.title,\n" +
+          "  YEAR(t.date_of_completion) as year,\n" +
+          "  SUM((t.first_place_winnings * (t.first_place_player=c.id) +\n" +
+          "  t.second_place_winnings * (t.second_place_player=c.id) +\n" +
+          "  t.third_place_winnings * (t.third_place_player=c.id))) AS winnings\n\n" +
 
-        query="SELECT DISTINCT c.id, c.birthdate, c.club_entry_date, " +
-                     "c.forename, c.surname, c.middle_name, " +
-                     "c.category_id, c.liberties_id " +
+          "FROM tournament t \n\n" +
 
-              "FROM   chessplayer c, category ct, " +
-                     "(SELECT * FROM tournament WHERE " +
-                     "YEAR(date_of_completion)=YEAR(CURDATE())) t, " +
-                     "tournament_players tp " +
-
-              "WHERE  c.category_id=ct.id AND " +
-                     "(c.id=tp.player_id AND t.id=tp.tournament_id)" +
-                     "ORDER BY c.birthdate ASC LIMIT 5",
-        resultClass = Chessplayer.class)
+          "JOIN chessplayer c ON YEAR(t.date_of_completion)=YEAR(CURDATE()) " +
+                  "GROUP BY c.id ORDER BY birthdate ASC LIMIT 5;")
 })
-@SuppressWarnings("unused")
 public class Chessplayer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -63,12 +64,12 @@ public class Chessplayer implements Serializable {
     @NotNull
     @DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
-	private Date birthdate;
+	private Date birthdate = new Date();
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
 	@Temporal(TemporalType.DATE)
 	@Column(name="club_entry_date")
-	private Date clubEntryDate;
+	private Date clubEntryDate = new Date();
 
     @Size(min = 2, max = 128)
 	@Column(length=128)

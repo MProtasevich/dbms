@@ -7,18 +7,19 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <!-- Le styles -->
-<c:set value="/resources" var="resources" />
-<c:set value="${resources}/css" var="css" />
-<c:set value="${resources}/js" var="js"/>
-<link href="${css}/bootstrap.min.css" rel="stylesheet">
-<link href="${css}/datepicker.css" rel="stylesheet">
+<c:set value="${pageContext.request.contextPath}/resources/" var="resources" />
+<c:set value="${resources}css/" var="css" />
+<c:set value="${resources}js/" var="js"/>
+<link href="${css}bootstrap.min.css" rel="stylesheet" type="text/css">
+<link href="${css}datepicker.css" rel="stylesheet" type="text/css">
+<link href="${css}line.css" rel="stylesheet" type="text/css">
 <style>
     body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
         background-color: #f5f5f5;
     }
 </style>
-<link href="${css}/bootstrap-responsive.min.css" rel="stylesheet">
+<link href="${css}bootstrap-responsive.min.css" rel="stylesheet">
 
 <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
@@ -32,6 +33,6 @@
     <link rel="apple-touch-icon-precomposed" href="../assets/ico/apple-touch-icon-57-precomposed.png">
     <link rel="shortcut icon" href="../assets/ico/favicon.png">--%>
 
-<script src="${js}/jquery.min.js"></script>
-<script src="${js}/bootstrap.min.js"></script>
-<script src="${js}/bootstrap-datepicker.js"></script>
+<script src="${js}jquery.min.js"></script>
+<script src="${js}bootstrap.min.js"></script>
+<script src="${js}bootstrap-datepicker.js"></script>

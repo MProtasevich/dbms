@@ -9,7 +9,7 @@ import java.util.List;
 public interface ChessDAO {
     public List<Game> getGameByPlayer(String surname);
     public List<Chessplayer> getPlayersWithUnpaidFees();
-    public List<Chessplayer> getFiveOldestPlayers();
+    public List getFiveOldestPlayers();
 
     public void addChessplayer(Chessplayer player);
     public void updateChessplayer(Chessplayer player);

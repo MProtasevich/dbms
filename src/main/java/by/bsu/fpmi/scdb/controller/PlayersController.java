@@ -16,7 +16,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 @Controller
 @RequestMapping(value = "/players")
-@SessionAttributes(value = {"newPlayer", "categories", "liberties", "players"})
+@SessionAttributes(value = { "newPlayer", "categories", "liberties", "players" })
 public class PlayersController {
     @Autowired
     private ChessDAO chessDAO;
