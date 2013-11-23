@@ -75,11 +75,11 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <form:label path="category.id" cssClass="control-label">
+                    <form:label path="title.id" cssClass="control-label">
                         <c:out value="Category"/>
                     </form:label>
                     <div class="controls">
-                        <form:select path="category.id" items="${categories}" itemValue="id" itemLabel="typeOfCategory" cssClass="error"/>
+                        <form:select path="title.id" items="${categories}" itemValue="id" itemLabel="typeOfCategory" cssClass="error"/>
                     </div>
                 </div>
                 <div class="control-group">

@@ -1,4 +1,3 @@
-<%@ page import="java.util.Calendar" %>
 <%@include file="../include/prelude.jsp" %>
 <!DOCTYPE html>
 <html>
@@ -33,27 +32,10 @@
                                 <c:out value="${player.birthdate}" />
                             </div>
                             <div class="span2">
-                                <c:out value="${player.category.typeOfCategory}" />
+                                <c:out value="${player.title}" />
                             </div>
                             <div class="span2">
-                                <c:set var="winnings" value="0" />
-                                <c:set var="curYear" value="<%=Calendar.getInstance().get(Calendar.YEAR)%>"/>
-                                <c:forEach items="${player.firstPlaceTournaments}" var="firstPlaceTournament">
-                                    <c:if test="${firstPlaceTournament.dateOfCompletion.year + 1900 == curYear && firstPlaceTournament.firstPlacePlayer.id == player.id}">
-                                        <c:set var="winnings" value="${winnings + firstPlaceTournament.firstPlaceWinnings}" />
-                                    </c:if>
-                                </c:forEach>
-                                <c:forEach items="${player.secondPlaceTournaments}" var="secondPlaceTournament">
-                                    <c:if test="${secondPlaceTournament.dateOfCompletion.year + 1900 == curYear && secondPlaceTournament.secondPlacePlayer.id == player.id}">
-                                        <c:set var="winnings" value="${winnings + secondPlaceTournament.secondPlaceWinnings}" />
-                                    </c:if>
-                                </c:forEach>
-                                <c:forEach items="${player.thirdPlaceTournaments}" var="thirdPlaceTournament">
-                                    <c:if test="${thirdPlaceTournament.dateOfCompletion.year + 1900 == curYear && thirdPlaceTournament.thirdPlacePlayer.id == player.id}">
-                                        <c:set var="winnings" value="${winnings + thirdPlaceTournament.thirdPlaceWinnings}" />
-                                    </c:if>
-                                </c:forEach>
-                                <c:out value="${winnings}"/>
+                                <c:out value="${player.winnings}"/>
                             </div>
                         </div>
                     </form>

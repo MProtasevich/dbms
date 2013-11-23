@@ -3,7 +3,10 @@ package by.bsu.fpmi.scdb.dao.impl;
 import by.bsu.fpmi.scdb.dao.ChessDAO;
 import by.bsu.fpmi.scdb.entity.*;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 
 public class ChessDAOImpl implements ChessDAO {
@@ -29,8 +32,7 @@ public class ChessDAOImpl implements ChessDAO {
     @Override
     public List getFiveOldestPlayers() {
         Query query = em.createNamedQuery("Chessplayer.findFiveOldest");
-        List lst = query.getResultList();
-        return lst;
+        return query.setMaxResults(5).getResultList();
     }
 
     @Override

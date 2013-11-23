@@ -21,9 +21,28 @@ import java.util.List;
                 query =
     "SELECT NEW " +
        "result.ChessplayerWithWinnings" +
-          "(c.forename, c.surname, c.category.typeOfCategory, c.birthdate, t.firstPlaceWinnings * (t.firstPlacePlayer=c.id)) " +
+          "(c.forename, c.surname, c.title.typeOfCategory, c.birthdate, t.firstPlaceWinnings * (t.firstPlacePlayer=c.id)) " +
 
     "FROM Chessplayer c JOIN Tournament t")*/
+    @NamedQuery(name = "Chessplayer.findFiveOldest",
+    query = "\n" +
+            "SELECT NEW result.ChessplayerWithWinnings(c.id, c.forename, c.surname, c.birthdate, t.title, SUM(\n" +
+            "    CASE WHEN t.firstPlacePlayer.id=c.id\n" +
+            "      THEN t.firstPlaceWinnings" +
+            "      ELSE 0.0" +
+            "    END +\n" +
+            "    CASE WHEN t.secondPlacePlayer.id=c.id\n" +
+            "      THEN t.secondPlaceWinnings" +
+            "      ELSE 0.0" +
+            "    END +\n" +
+            "    CASE WHEN t.thirdPlacePlayer.id=c.id\n" +
+            "      THEN t.thirdPlaceWinnings" +
+            "      ELSE 0.0" +
+            "    END))\n" +
+
+            "  FROM Tournament t INNER JOIN t.chessplayers c" +
+            "    WHERE YEAR(t.dateOfCompletion)=YEAR(CURRENT_DATE)" +
+            "      AND t MEMBER OF c.tournaments GROUP BY c.id ORDER BY c.birthdate ASC")
 })
 
 @NamedNativeQueries({
@@ -40,18 +59,18 @@ import java.util.List;
                 "(SELECT chessplayer_id FROM member_fees WHERE year=YEAR(CURDATE()))",
         resultClass = Chessplayer.class),
 
-    @NamedNativeQuery(name="Chessplayer.findFiveOldest",
+    /*@NamedNativeQuery(name="Chessplayer.findFiveOldest",
         query=
-          "SELECT c.forename, c.surname, c.birthdate, t.title,\n" +
-          "  YEAR(t.date_of_completion) as year,\n" +
-          "  SUM((t.first_place_winnings * (t.first_place_player=c.id) +\n" +
-          "  t.second_place_winnings * (t.second_place_player=c.id) +\n" +
-          "  t.third_place_winnings * (t.third_place_player=c.id))) AS winnings\n\n" +
+          "SELECT c.forename, c.surname, c.birthdate, t.title," +
+          "  YEAR(t.date_of_completion) as year," +
+          "  SUM((t.first_place_winnings * (t.first_place_player=c.id) +" +
+          "  t.second_place_winnings * (t.second_place_player=c.id) +" +
+          "  t.third_place_winnings * (t.third_place_player=c.id))) AS winnings" +
 
-          "FROM tournament t \n\n" +
+          "FROM tournament t " +
 
           "JOIN chessplayer c ON YEAR(t.date_of_completion)=YEAR(CURDATE()) " +
-                  "GROUP BY c.id ORDER BY birthdate ASC LIMIT 5;")
+                  "GROUP BY c.id ORDER BY birthdate ASC LIMIT 5;")*/
 })
 public class Chessplayer implements Serializable {
 	private static final long serialVersionUID = 1L;

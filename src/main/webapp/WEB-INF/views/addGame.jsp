@@ -33,11 +33,11 @@
                     </div>
                 </div>
                 <div class="control-group">
-                    <form:label path="category.id" cssClass="control-label">
-                        <sf:message code="label.category"/>
+                    <form:label path="title.id" cssClass="control-label">
+                        <sf:message code="label.title"/>
                     </form:label>
                     <div class="controls">
-                        <form:select path="category.id" items="${categories}" itemValue="id" itemLabel="category"/>
+                        <form:select path="title.id" items="${categories}" itemValue="id" itemLabel="title"/>
                         <hr class="answer">
                     </div>
                 </div>
