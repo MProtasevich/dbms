@@ -33,7 +33,7 @@
 <div class="${defContainer}">
     <%@include file="../include/navbar.jsp"%>
     <div class="${defSpan}">
-        <h1><c:out value="Get player's games"/></h1>
+        <h1><c:out value="Get player's [${playerName}] games"/></h1>
 
         <!-- List of already added questions -->
         <c:if test="${!empty games}">

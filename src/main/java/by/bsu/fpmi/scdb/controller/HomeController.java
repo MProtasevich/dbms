@@ -25,6 +25,7 @@ public class HomeController {
     @RequestMapping(value = "/getGameByPlayer/{surname}", method = GET)
     public String getGameByPlayer(@PathVariable String surname, Model model) {
         model.addAttribute("games", chessDAO.getGameByPlayer(surname));
+        model.addAttribute("playerName", surname);
         return "getBySurname";
     }
 
