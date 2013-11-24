@@ -9,8 +9,9 @@ public class CharsetFilter implements Filter {
     public void init(FilterConfig config) throws ServletException {
         encoding = config.getInitParameter("requestEncoding");
 
-        if(encoding == null)
+        if(encoding == null) {
             encoding = "UTF-8";
+        }
     }
 
     public void doFilter(ServletRequest request,
@@ -18,8 +19,10 @@ public class CharsetFilter implements Filter {
             throws IOException, ServletException {
 
         request.setCharacterEncoding(encoding);
+        response.setCharacterEncoding(encoding);
         next.doFilter(request, response);
     }
 
-    public void destroy(){}
+    public void destroy() {
+    }
 }
