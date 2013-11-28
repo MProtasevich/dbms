@@ -8,7 +8,10 @@
         });
     });*/
     function redirect() {
-        window.location.href="${contextPath}/getGameByPlayer/" + prompt('Enter player\'s surname', 'Surname');
+        var playerSurname = prompt('Enter player\'s surname', 'Surname');
+        if(playerSurname != null) {
+            window.location.href="${contextPath}/getGameByPlayer/" + playerSurname;
+        }
     }
 </script>
 
@@ -24,15 +27,27 @@
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
-                    <li>
-                        <a href="${contextPath}/players/add">
-                            Players
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            CRUD
                         </a>
-                    </li>
-                    <li>
-                        <a href="${contextPath}/tournaments/add">
-                            Tournaments
-                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="${contextPath}/games/add">
+                                    Games
+                                </a>
+                            </li>
+                            <li>
+                                <a href="${contextPath}/players/add">
+                                    Players
+                                </a>
+                            </li>
+                            <li>
+                                <a href="${contextPath}/tournaments/add">
+                                    Tournaments
+                                </a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown">

@@ -1,7 +1,9 @@
 package by.bsu.fpmi.scdb.controller;
 
 import by.bsu.fpmi.scdb.dao.ChessDAO;
+import by.bsu.fpmi.scdb.entity.Category;
 import by.bsu.fpmi.scdb.entity.Chessplayer;
+import by.bsu.fpmi.scdb.entity.Liberty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.Date;
+import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -23,10 +26,7 @@ public class PlayersController {
 
     @RequestMapping(value = "/add", method = GET)
     public String addPlayer(Model model) {
-        model.addAttribute("categories", chessDAO.listCategories());
-        model.addAttribute("liberties", chessDAO.listLiberties());
         model.addAttribute("newPlayer", new Chessplayer());
-        model.addAttribute("players", chessDAO.listPlayers());
         return "addPlayer";
     }
 
@@ -37,7 +37,7 @@ public class PlayersController {
         return "editPlayer";
     }
 
-    @RequestMapping(value = "/add/do", method = POST)
+    @RequestMapping(value = "/add", method = POST)
     public String addPlayer(@Valid @ModelAttribute("newPlayer")
                             Chessplayer player, BindingResult result) {
         if(result.hasErrors()) {
@@ -49,12 +49,27 @@ public class PlayersController {
     }
 
     @RequestMapping(value = "/edit", method = POST)
-    public String editPlayer(@Valid @ModelAttribute("editedPlayer")
+    public String editPlayer(@Valid @ModelAttribute("editPlayer")
                              Chessplayer player, BindingResult result) {
         if(result.hasErrors()) {
             return "editPlayer";
         }
         chessDAO.updateChessplayer(player);
         return "redirect:/players/add";
+    }
+
+    @ModelAttribute("categories")
+    public List<Category> populateCategories() {
+        return chessDAO.listCategories();
+    }
+
+    @ModelAttribute("players")
+    public List<Chessplayer> populatePlayers() {
+        return chessDAO.listPlayers();
+    }
+
+    @ModelAttribute("liberties")
+    public List<Liberty> populateLiberties() {
+        return chessDAO.listLiberties();
     }
 }

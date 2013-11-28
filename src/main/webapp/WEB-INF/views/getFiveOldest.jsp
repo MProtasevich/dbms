@@ -3,8 +3,6 @@
 <html>
 <head>
     <jsp:include page="../include/header.jsp"/>
-    <!--<script src="/resources/js/management.js"></script>-->
-    <script type="text/javascript" src="${contextPath}resources/js/management.js"></script>
 </head>
 
 <body>
@@ -13,7 +11,6 @@
     <div class="${defSpan}">
         <h1><c:out value="Five Oldest chessplayers, who played this year"/></h1>
 
-        <!-- List of already added questions -->
         <c:if test="${!empty players}">
             <div class="${defContainer}">
                 <c:forEach items="${players}" var="player" varStatus="status">
@@ -21,9 +18,9 @@
                         <hr>
                         <div class="row-fluid">
                             <div class="span1">
-                                <button type="submit" class="btn btn-small">
+                                <a href="/players/edit/${player.id}" class="btn btn-small">
                                     <i class="icon-edit"></i>
-                                </button>
+                                </a>
                             </div>
                             <div class="span5">
                                 <b><c:out value="[${player.surname} ${player.forename}]:"/></b>
@@ -42,7 +39,6 @@
                 </c:forEach>
             </div>
         </c:if>
-        <!-- End of list -->
     </div>
 </div>
 </body>

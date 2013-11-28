@@ -15,10 +15,7 @@ public class HomeController {
     private ChessDAO chessDAO;
 
 	@RequestMapping(value = "/", method = GET)
-	public String home(/*Locale locale, Model model*/) {
-		/*Date date = new Date();
-		DateFormat dateFormat = DateFormat.getDateTimeInstance(DateFormat.LONG, DateFormat.LONG, locale);
-		String formattedDate = dateFormat.format(date);*/
+	public String home() {
 		return "home";
 	}
 

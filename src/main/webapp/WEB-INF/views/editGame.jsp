@@ -6,13 +6,16 @@
 </head>
 
 <body>
-<%@include file="../include/navbar.jsp" %>
+<div class="${defContainer}">
+    <%@include file="../include/navbar.jsp"%>
+    <div class="${defSpan}">
+        <h1><c:out value="Edit game"/></h1>
 
-<div class="container">
-    <h1>Lab1</h1>
-    <p>Lab1</p>
+        <form:form commandName="editGame" cssClass="form-horizontal" action="/game/edit" method="POST">
+            <%@include file="../include/forms/gameForm.jsp"%>
+        </form:form>
+    </div>
 </div>
-<!-- /container -->
 </body>
 <%@include file="../include/footer.jsp" %>
 </html>
