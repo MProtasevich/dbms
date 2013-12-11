@@ -1,6 +1,7 @@
-<%@include file="../prelude.jsp" %>
+<%@include file="../prelude.jsp"%>
 
 <fieldset id="setOfParams">
+    <form:input path="id" value="${playerId}" type="hidden"/>
     <div class="control-group">
         <form:label path="forename" cssClass="control-label">
             <c:out value="Forename"/>

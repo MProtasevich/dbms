@@ -11,7 +11,7 @@ import java.io.Serializable;
 @Entity
 @Table(name="member_fees")
 @NamedQueries({
-    @NamedQuery(name="MemberFee.findAll", query="SELECT m FROM MemberFee m"),
+    @NamedQuery(name="MemberFee.findAll", query="SELECT m FROM MemberFee m ORDER BY year DESC"),
     @NamedQuery(name="MemberFee.getById", query="SELECT m FROM MemberFee m WHERE m.id=:id")
 })
 public class MemberFee implements Serializable {

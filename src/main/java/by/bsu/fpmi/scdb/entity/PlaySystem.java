@@ -2,7 +2,7 @@ package by.bsu.fpmi.scdb.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -28,7 +28,8 @@ public class PlaySystem implements Serializable {
 
 	//bi-directional many-to-one association to Tournament
 	@OneToMany(mappedBy="playSystem")
-	private List<Tournament> tournaments;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Tournament> tournaments;
 
 	public PlaySystem() {
 	}
@@ -49,26 +50,25 @@ public class PlaySystem implements Serializable {
 		this.systemDescr = systemDescr;
 	}
 
-	public List<Tournament> getTournaments() {
+	public Map<Integer, Tournament> getTournaments() {
 		return this.tournaments;
 	}
 
-	public void setTournaments(List<Tournament> tournaments) {
+	public void setTournaments(Map<Integer, Tournament> tournaments) {
 		this.tournaments = tournaments;
 	}
 
 	public Tournament addTournament(Tournament tournament) {
-		getTournaments().add(tournament);
+		getTournaments().put(tournament.getId(), tournament);
 		tournament.setPlaySystem(this);
 
 		return tournament;
 	}
 
 	public Tournament removeTournament(Tournament tournament) {
-		getTournaments().remove(tournament);
+		getTournaments().remove(tournament.getId());
 		tournament.setPlaySystem(null);
 
 		return tournament;
 	}
-
 }

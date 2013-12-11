@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -63,11 +63,13 @@ public class Tournament implements Serializable {
 
 	//bi-directional many-to-many association to Chessplayer
 	@ManyToMany(mappedBy="tournaments")
-	private List<Chessplayer> chessplayers;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Chessplayer> chessplayers;
 
 	//bi-directional many-to-one association to Game
 	@OneToMany(mappedBy="tournament")
-	private List<Game> games;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Game> games;
 
 	//bi-directional many-to-one association to PlaySystem
 	@ManyToOne
@@ -153,31 +155,45 @@ public class Tournament implements Serializable {
 		this.title = title;
 	}
 
-	public List<Chessplayer> getChessplayers() {
+	public Map<Integer, Chessplayer> getChessplayers() {
 		return this.chessplayers;
 	}
 
-	public void setChessplayers(List<Chessplayer> chessplayers) {
+	public void setChessplayers(Map<Integer, Chessplayer> chessplayers) {
 		this.chessplayers = chessplayers;
 	}
 
-	public List<Game> getGames() {
+    /*public Chessplayer addChessplayer(Chessplayer player) {
+        getGames().put(player.getId(), player);
+        player.addTournaments(this);
+
+        return player;
+    }
+
+    public Game removeChessplayer(Game game) {
+        getGames().remove(game.getId());
+        game.setTournament(null);
+
+        return game;
+    }*/
+
+	public Map<Integer, Game> getGames() {
 		return this.games;
 	}
 
-	public void setGames(List<Game> games) {
+	public void setGames(Map<Integer, Game> games) {
 		this.games = games;
 	}
 
 	public Game addGame(Game game) {
-		getGames().add(game);
+		getGames().put(game.getId(), game);
 		game.setTournament(this);
 
 		return game;
 	}
 
 	public Game removeGame(Game game) {
-		getGames().remove(game);
+		getGames().remove(game.getId());
 		game.setTournament(null);
 
 		return game;

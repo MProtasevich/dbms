@@ -15,11 +15,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 
         <java.version>1.6</java.version>
-        <spring.version>3.1.4.RELEASE</spring.version>
-        <cglib.version>3.0</cglib.version>
+        <spring.version>3.2.5.RELEASE</spring.version>
+        <!--<cglib.version>3.0</cglib.version>-->
         <hibernate.version>4.2.6.Final</hibernate.version>
         <mysql.conn.version>5.1.26</mysql.conn.version>
         <jackson.version>1.9.13</jackson.version>
+        <aspectj.version>1.7.4</aspectj.version>
     </properties>
 
     <dependencies>
@@ -45,6 +46,12 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
             <version>2.3</version>
@@ -61,13 +68,12 @@
 
 
         <!-- CGLib for @Configuration -->
-        <dependency>
+        <!--<dependency>
             <groupId>cglib</groupId>
             <artifactId>cglib-nodep</artifactId>
             <version>${cglib.version}</version>
             <scope>runtime</scope>
-        </dependency>
-
+        </dependency>-->
 
         <!-- Servlet Spec -->
         <dependency>
@@ -135,6 +141,18 @@
             <version>${jackson.version}</version>
         </dependency>
         <!- End JSON -->
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
    </dependencies>
 
 
@@ -266,4 +284,3 @@
         </profile>
     </profiles>
 </project>
-

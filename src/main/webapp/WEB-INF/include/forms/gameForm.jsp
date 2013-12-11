@@ -1,4 +1,16 @@
-<%@include file="../prelude.jsp" %>
+<%@include file="../prelude.jsp"%>
+
+<script type="text/javascript">
+    $(document).ready(function selectionChanged() {
+        var whitePlayer = document.getElementById("whitePlayer.id option:selected");
+        var blackPlayer = document.getElementById("blackPlayer.id option:selected");
+
+        var winner = document.getElementById("winner.id");
+        var loser = document.getElementById("loser.id");
+
+
+    });
+</script>
 
 <fieldset id="setOfParams">
     <div class="control-group">
@@ -47,7 +59,18 @@
             <c:out value="White player's debut"/>
         </form:label>
         <div class="controls">
-            <form:select path="whiteDebut.id" items="${debuts}" itemLabel="debutDescr" itemvalue="id" cssClass="error"/>
+            <form:select path="whiteDebut.id" cssClass="error">
+                <c:forEach items="${debuts}" var="debut">
+                    <c:choose>
+                        <c:when test="${debut.id == game.whiteDebut.id}">
+                            <form:option value="${debut.id}" label="${debut.debutDescr}" selected="true"/>
+                        </c:when>
+                        <c:otherwise>
+                            <form:option value="${debut.id}" label="${debut.debutDescr}"/>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </form:select>
         </div>
     </div>
     <div class="control-group">
@@ -55,7 +78,18 @@
             <c:out value="Black player's debut"/>
         </form:label>
         <div class="controls">
-            <form:select path="blackDebut.id" items="${debuts}" itemLabel="debutDescr" itemvalue="id" cssClass="error"/>
+            <form:select path="blackDebut.id" cssClass="error">
+                <c:forEach items="${debuts}" var="debut">
+                    <c:choose>
+                        <c:when test="${debut.id == game.blackDebut.id}">
+                            <form:option value="${debut.id}" label="${debut.debutDescr}" selected="true"/>
+                        </c:when>
+                        <c:otherwise>
+                            <form:option value="${debut.id}" label="${debut.debutDescr}"/>
+                        </c:otherwise>
+                    </c:choose>
+                </c:forEach>
+            </form:select>
         </div>
     </div>
     <div class="control-group">

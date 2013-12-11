@@ -2,7 +2,7 @@ package by.bsu.fpmi.scdb.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -28,11 +28,13 @@ public class Debut implements Serializable {
 
 	//bi-directional many-to-one association to Game
 	@OneToMany(mappedBy="whiteDebut")
-	private List<Game> gamesAsWhite;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Game> gamesAsWhite;
 
 	//bi-directional many-to-one association to Game
-	@OneToMany(mappedBy="whiteDebut")
-	private List<Game> gamesAsBlack;
+	@OneToMany(mappedBy="blackDebut")
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Game> gamesAsBlack;
 
 	public Debut() {
 	}
@@ -53,48 +55,47 @@ public class Debut implements Serializable {
 		this.debutDescr = debutDescr;
 	}
 
-	public List<Game> getGamesAsWhite() {
+	public Map<Integer, Game> getGamesAsWhite() {
 		return this.gamesAsWhite;
 	}
 
-	public void setGamesAsWhite(List<Game> gamesAsWhite) {
+	public void setGamesAsWhite(Map<Integer, Game> gamesAsWhite) {
 		this.gamesAsWhite = gamesAsWhite;
 	}
 
 	public Game addGamesAsWhite(Game gamesAsWhite) {
-		getGamesAsWhite().add(gamesAsWhite);
+		getGamesAsWhite().put(gamesAsWhite.getId(), gamesAsWhite);
 		gamesAsWhite.setWhiteDebut(this);
 
 		return gamesAsWhite;
 	}
 
 	public Game removeGamesAsWhite(Game gamesAsWhite) {
-		getGamesAsWhite().remove(gamesAsWhite);
+		getGamesAsWhite().remove(gamesAsWhite.getId());
 		gamesAsWhite.setWhiteDebut(null);
 
 		return gamesAsWhite;
 	}
 
-	public List<Game> getGamesAsBlack() {
+	public Map<Integer, Game> getGamesAsBlack() {
 		return this.gamesAsBlack;
 	}
 
-	public void setGamesAsBlack(List<Game> gamesAsBlack) {
+	public void setGamesAsBlack(Map<Integer, Game> gamesAsBlack) {
 		this.gamesAsBlack = gamesAsBlack;
 	}
 
 	public Game addGamesAsBlack(Game gamesAsBlack) {
-		getGamesAsBlack().add(gamesAsBlack);
+		getGamesAsBlack().put(gamesAsBlack.getId(), gamesAsBlack);
 		gamesAsBlack.setBlackDebut(this);
 
 		return gamesAsBlack;
 	}
 
 	public Game removeGamesAsBlack(Game gamesAsBlack) {
-		getGamesAsBlack().remove(gamesAsBlack);
+		getGamesAsBlack().remove(gamesAsBlack.getId());
 		gamesAsBlack.setBlackDebut(null);
 
 		return gamesAsBlack;
 	}
-
 }

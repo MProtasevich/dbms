@@ -24,44 +24,56 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @RequestMapping(value = "/games")
 @SessionAttributes(value = { "debuts", "players", "tournaments", "games" })
 public class GameController {
+    private static final String
+        LIST_VIEW = "list/game",
+        FORM_VIEW = "page/game",
+        REDIRECT_TO = "redirect:games";
+
+    private static final String
+        ADD_ACTION = "/games/add",
+        EDIT_ACTION = "/games/edit";
+
     @Autowired
     private ChessDAO chessDAO;
 
-    @RequestMapping(value = "/", method = GET)
-    public String game() {
-        return "editGame";
+    @RequestMapping(method = GET)
+    public String listPlayers() {
+        return LIST_VIEW;
     }
 
     @RequestMapping(value = "/add", method = GET)
     public String addPlayer(Model model) {
-        model.addAttribute("newGame", new Game());
-        return "addGame";
+        model.addAttribute("action", ADD_ACTION);
+        model.addAttribute("game", new Game());
+        return FORM_VIEW;
     }
 
     @RequestMapping(value = "/edit/{id}", method = GET)
     public String editPlayers(Model model, @PathVariable int id) {
-        model.addAttribute("editGame", chessDAO.getGame(id));
-        return "editGame";
+        model.addAttribute("action", EDIT_ACTION);
+        model.addAttribute("game", chessDAO.getGame(id));
+        return FORM_VIEW;
     }
 
     @RequestMapping(value = "/add", method = POST)
     public String addPlayer(@Valid @ModelAttribute("newGame")
                             Game game, BindingResult result) {
-        if(result.hasErrors()) {
-            return "addGame";
+        if(!result.hasErrors()) {
+            return LIST_VIEW;
         }
         chessDAO.addGame(game);
-        return "addGame";
+        return REDIRECT_TO;
     }
 
     @RequestMapping(value = "/edit", method = POST)
-    public String editPlayer(@Valid @ModelAttribute("editGame")
-                             Game game, BindingResult result) {
+    public String editPlayer(Model model,
+                             @Valid @ModelAttribute("editGame") Game game,
+                             BindingResult result) {
         if(result.hasErrors()) {
-            return "editGame";
+            return FORM_VIEW;
         }
         chessDAO.updateGame(game);
-        return "editGame";
+        return REDIRECT_TO;
     }
 
     @ModelAttribute("debuts")

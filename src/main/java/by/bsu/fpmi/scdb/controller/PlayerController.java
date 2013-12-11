@@ -20,42 +20,57 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 @RequestMapping(value = "/players")
 @SessionAttributes(value = { "newPlayer", "categories", "liberties", "players" })
-public class PlayersController {
+public class PlayerController {
+    private static final String
+            LIST_VIEW = "list/player",
+            FORM_VIEW = "page/player",
+            REDIRECT_TO = "redirect:players";
+
+    private static final String
+            ADD_ACTION = "/players/add",
+            EDIT_ACTION = "/players/edit";
+
     @Autowired
     private ChessDAO chessDAO;
+
+    @RequestMapping(method = GET)
+    public String listPlayers() {
+        return LIST_VIEW;
+    }
 
     @RequestMapping(value = "/add", method = GET)
     public String addPlayer(Model model) {
         model.addAttribute("newPlayer", new Chessplayer());
-        return "addPlayer";
+        return FORM_VIEW;
     }
 
     @RequestMapping(value = "/edit/{id}", method = GET)
-    public String editPlayers(Model model,
-                              @PathVariable int id) {
+    public String editPlayer(Model model, @PathVariable int id) {
         model.addAttribute("editPlayer", chessDAO.getChessplayer(id));
-        return "editPlayer";
+        return FORM_VIEW;
     }
 
     @RequestMapping(value = "/add", method = POST)
     public String addPlayer(@Valid @ModelAttribute("newPlayer")
-                            Chessplayer player, BindingResult result) {
+                            Chessplayer player, BindingResult result,
+                            Model model) {
         if(result.hasErrors()) {
-            return "addPlayer";
+            return FORM_VIEW;
         }
         player.setClubEntryDate(new Date());
         chessDAO.addChessplayer(player);
-        return "redirect:/players/add";
+        return REDIRECT_TO;
     }
 
     @RequestMapping(value = "/edit", method = POST)
     public String editPlayer(@Valid @ModelAttribute("editPlayer")
-                             Chessplayer player, BindingResult result) {
+                             Chessplayer player, BindingResult result,
+                             Model model) {
         if(result.hasErrors()) {
-            return "editPlayer";
+            return FORM_VIEW;
         }
         chessDAO.updateChessplayer(player);
-        return "redirect:/players/add";
+        return REDIRECT_TO;
     }
 
     @ModelAttribute("categories")

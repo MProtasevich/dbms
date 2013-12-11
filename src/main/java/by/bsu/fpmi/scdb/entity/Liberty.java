@@ -2,7 +2,7 @@ package by.bsu.fpmi.scdb.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -31,7 +31,8 @@ public class Liberty implements Serializable {
 
 	//bi-directional many-to-one association to Chessplayer
 	@OneToMany(mappedBy="liberty")
-	private List<Chessplayer> chessplayers;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Chessplayer> chessplayers;
 
 	public Liberty() {
 	}
@@ -60,26 +61,25 @@ public class Liberty implements Serializable {
 		this.libertyDescr = libertyDescr;
 	}
 
-	public List<Chessplayer> getChessplayers() {
+	public Map<Integer, Chessplayer> getChessplayers() {
 		return this.chessplayers;
 	}
 
-	public void setChessplayers(List<Chessplayer> chessplayers) {
+	public void setChessplayers(Map<Integer, Chessplayer> chessplayers) {
 		this.chessplayers = chessplayers;
 	}
 
 	public Chessplayer addChessplayer(Chessplayer chessplayer) {
-		getChessplayers().add(chessplayer);
+		getChessplayers().put(chessplayer.getId(), chessplayer);
 		chessplayer.setLiberty(this);
 
 		return chessplayer;
 	}
 
 	public Chessplayer removeChessplayer(Chessplayer chessplayer) {
-		getChessplayers().remove(chessplayer);
+		getChessplayers().remove(chessplayer.getId());
 		chessplayer.setLiberty(null);
 
 		return chessplayer;
 	}
-
 }

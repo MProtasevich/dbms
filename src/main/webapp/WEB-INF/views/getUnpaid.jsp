@@ -1,20 +1,9 @@
-<%@include file="../include/prelude.jsp" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <jsp:include page="../include/header.jsp"/>
-</head>
+<%@include file="open.jsp" %>
 
-<body>
-<div class="${defContainer}">
-    <%@include file="../include/navbar.jsp"%>
-    <div class="${defSpan}">
-        <h1><c:out value="Chessplayer, who didn't pay fees this year"/></h1>
+<div class="${defSpan}">
+    <h1><c:out value="Chessplayers, who didn't pay fees this year"/></h1>
 
-        <%@include file="../include/forms/listPlayers.jsp"%>
-    </div>
+    <%@include file="../include/lists/listPlayers.jsp"%>
 </div>
-</body>
-<%@include file="../include/footer.jsp" %>
 
-</html>
+<%@include file="close.jsp"%>

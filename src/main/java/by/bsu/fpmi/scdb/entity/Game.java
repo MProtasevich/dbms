@@ -136,5 +136,4 @@ public class Game implements Serializable {
 	public void setTournament(Tournament tournament) {
 		this.tournament = tournament;
 	}
-
 }

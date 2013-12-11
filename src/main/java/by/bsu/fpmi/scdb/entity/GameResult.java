@@ -2,7 +2,7 @@ package by.bsu.fpmi.scdb.entity;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -25,7 +25,8 @@ public class GameResult implements Serializable {
 
 	//bi-directional many-to-one association to Game
 	@OneToMany(mappedBy="gameResult")
-	private List<Game> games;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Game> games;
 
 	//bi-directional many-to-one association to Chessplayer
 	@ManyToOne
@@ -48,23 +49,23 @@ public class GameResult implements Serializable {
 		this.id = id;
 	}
 
-	public List<Game> getGames() {
+	public Map<Integer, Game> getGames() {
 		return this.games;
 	}
 
-	public void setGames(List<Game> games) {
+	public void setGames(Map<Integer, Game> games) {
 		this.games = games;
 	}
 
 	public Game addGame(Game game) {
-		getGames().add(game);
+		getGames().put(game.getId(), game);
 		game.setGameResult(this);
 
 		return game;
 	}
 
 	public Game removeGame(Game game) {
-		getGames().remove(game);
+		getGames().remove(game.getId());
 		game.setGameResult(null);
 
 		return game;
@@ -85,5 +86,4 @@ public class GameResult implements Serializable {
 	public void setLoser(Chessplayer loser) {
 		this.loser = loser;
 	}
-
 }

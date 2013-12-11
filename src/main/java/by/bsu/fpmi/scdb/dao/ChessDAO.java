@@ -11,14 +11,29 @@ public interface ChessDAO {
     public List<Chessplayer> getPlayersWithUnpaidFees();
     public List getFiveOldestPlayers();
 
-    public void addChessplayer(Chessplayer player);
-    public void updateChessplayer(Chessplayer player);
+    public void addCategory(Category category);
+    public void updateCategory(Category category);
 
-    public void addTournament(Tournament tournament);
-    public void updateTournament(Tournament tournament);
+    public void addDebut(Debut debut);
+    public void updateDebut(Debut debut);
 
     public void addGame(Game game);
     public void updateGame(Game game);
+
+    public void addLiberty(Liberty liberty);
+    public void updateLiberty(Liberty liberty);
+
+    public void addMemberFee(MemberFee memberFee);
+    public void updateMemberFee(MemberFee memberFee);
+    
+    public void addChessplayer(Chessplayer player);
+    public void updateChessplayer(Chessplayer player);
+
+    public void addPlaySystem(PlaySystem playSystem);
+    public void updatePlaySystem(PlaySystem playSystem);
+
+    public void addTournament(Tournament tournament);
+    public void updateTournament(Tournament tournament);
 
     public List<Category> listCategories();
     public List<Chessplayer> listPlayers();

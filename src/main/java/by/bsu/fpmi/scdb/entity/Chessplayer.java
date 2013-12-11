@@ -7,23 +7,18 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
-import java.util.List;
+import java.util.Map;
 
 
 @Entity
 @Table(name="chessplayer")
 @NamedQueries({
-    /*@NamedQuery(name = "Chessplayer.findAll",
+    @NamedQuery(name = "Chessplayer.findAll",
             query = "SELECT c FROM Chessplayer c"),
-    @NamedQuery(name = "Chessplayer.getById",
-                query = "SELECT c FROM Chessplayer c WHERE c.id=:id")*/
-    /*@NamedQuery(name = "Chessplayer.findFiveOldest",
-                query =
-    "SELECT NEW " +
-       "result.ChessplayerWithWinnings" +
-          "(c.forename, c.surname, c.title.typeOfCategory, c.birthdate, t.firstPlaceWinnings * (t.firstPlacePlayer=c.id)) " +
 
-    "FROM Chessplayer c JOIN Tournament t")*/
+    @NamedQuery(name = "Chessplayer.getById",
+                query = "SELECT c FROM Chessplayer c WHERE c.id=:id"),
+
     @NamedQuery(name = "Chessplayer.findFiveOldest",
     query = "\n" +
             "SELECT NEW result.ChessplayerWithWinnings(c.id, c.forename, c.surname, c.birthdate, t.title, SUM(\n" +
@@ -42,36 +37,24 @@ import java.util.List;
 
             "  FROM Tournament t INNER JOIN t.chessplayers c" +
             "    WHERE YEAR(t.dateOfCompletion)=YEAR(CURRENT_DATE)" +
-            "      AND t MEMBER OF c.tournaments GROUP BY c.id ORDER BY c.birthdate ASC")
+            "      AND t MEMBER OF c.tournaments GROUP BY c.id" +
+            "      ORDER BY c.birthdate ASC"),
+
+    @NamedQuery(name = "Chessplayer.findPlayersIn",
+    query = "SELECT cp FROM Chessplayer cp WHERE cp.id IN(:ids)"),
+
+    @NamedQuery(name="Chessplayer.findWithUnpaidFees",
+    query = "SELECT c FROM Chessplayer c WHERE c.id NOT IN " +
+              "(SELECT m.chessplayer.id FROM MemberFee m " +
+                "WHERE m.year=YEAR(CURRENT_DATE))")
 })
 
-@NamedNativeQueries({
-    @NamedNativeQuery(name = "Chessplayer.findAll",
-        query = "SELECT * FROM chessplayer",
-        resultClass = Chessplayer.class),
-
-    @NamedNativeQuery(name = "Chessplayer.getById",
-        query = "SELECT * FROM chessplayer  WHERE id=:id",
-        resultClass = Chessplayer.class),
-
+/*@NamedNativeQueries({
     @NamedNativeQuery(name="Chessplayer.findWithUnpaidFees",
         query="SELECT * FROM chessplayer WHERE id NOT IN " +
                 "(SELECT chessplayer_id FROM member_fees WHERE year=YEAR(CURDATE()))",
-        resultClass = Chessplayer.class),
-
-    /*@NamedNativeQuery(name="Chessplayer.findFiveOldest",
-        query=
-          "SELECT c.forename, c.surname, c.birthdate, t.title," +
-          "  YEAR(t.date_of_completion) as year," +
-          "  SUM((t.first_place_winnings * (t.first_place_player=c.id) +" +
-          "  t.second_place_winnings * (t.second_place_player=c.id) +" +
-          "  t.third_place_winnings * (t.third_place_player=c.id))) AS winnings" +
-
-          "FROM tournament t " +
-
-          "JOIN chessplayer c ON YEAR(t.date_of_completion)=YEAR(CURDATE()) " +
-                  "GROUP BY c.id ORDER BY birthdate ASC LIMIT 5;")*/
-})
+        resultClass = Chessplayer.class)
+})*/
 public class Chessplayer implements Serializable {
 	private static final long serialVersionUID = 1L;
 
@@ -119,36 +102,45 @@ public class Chessplayer implements Serializable {
 		joinColumns={ @JoinColumn(name="player_id", nullable=false) },
 		inverseJoinColumns={ @JoinColumn(name="tournament_id", nullable=false) }
 	)
-	private List<Tournament> tournaments;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Tournament> tournaments;
 
 	//bi-directional many-to-one association to Game
 	@OneToMany(mappedBy="whitePlayer")
-	private List<Game> gamesAsWhite;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Game> gamesAsWhite;
 
 	//bi-directional many-to-one association to Game
 	@OneToMany(mappedBy="blackPlayer")
-	private List<Game> gamesAsBlack;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, Game> gamesAsBlack;
 
 	//bi-directional many-to-one association to GameResult
 	@OneToMany(mappedBy="winner")
-	private List<GameResult> wonGames;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, GameResult> wonGames;
 
 	//bi-directional many-to-one association to GameResult
 	@OneToMany(mappedBy="loser")
-	private List<GameResult> lostGames;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, GameResult> lostGames;
 
 	//bi-directional many-to-one association to MemberFee
 	@OneToMany(mappedBy="chessplayer")
-	private List<MemberFee> memberFees;
+    @MapKeyColumn(name = "id")
+	private Map<Integer, MemberFee> memberFees;
 
     @OneToMany(mappedBy = "firstPlacePlayer")
-    private List<Tournament> firstPlaceTournaments;
+    @MapKeyColumn(name = "id")
+    private Map<Integer, Tournament> firstPlaceTournaments;
 
     @OneToMany(mappedBy = "secondPlacePlayer")
-    private List<Tournament> secondPlaceTournaments;
+    @MapKeyColumn(name = "id")
+    private Map<Integer, Tournament> secondPlaceTournaments;
 
     @OneToMany(mappedBy = "thirdPlacePlayer")
-    private List<Tournament> thirdPlaceTournaments;
+    @MapKeyColumn(name = "id")
+    private Map<Integer, Tournament> thirdPlaceTournaments;
 
 	public Chessplayer() {
 	}
@@ -217,145 +209,187 @@ public class Chessplayer implements Serializable {
 		this.liberty = liberty;
 	}
 
-	public List<Tournament> getTournaments() {
+	public Map<Integer, Tournament> getTournaments() {
 		return this.tournaments;
 	}
 
-	public void setTournaments(List<Tournament> tournaments) {
+	public void setTournaments(Map<Integer, Tournament> tournaments) {
 		this.tournaments = tournaments;
 	}
 
-	public List<Game> getGamesAsWhite() {
+	public Map<Integer, Game> getGamesAsWhite() {
 		return this.gamesAsWhite;
 	}
 
-	public void setGamesAsWhite(List<Game> gamesAsWhite) {
+	public void setGamesAsWhite(Map<Integer, Game> gamesAsWhite) {
 		this.gamesAsWhite = gamesAsWhite;
 	}
 
-	public Game addGamesAsWhite(Game gamesAsWhite) {
-		getGamesAsWhite().add(gamesAsWhite);
-		gamesAsWhite.setWhitePlayer(this);
+	public Game addGamesAsWhite(Game gameAsWhite) {
+		getGamesAsWhite().put(gameAsWhite.getId(), gameAsWhite);
+		gameAsWhite.setWhitePlayer(this);
 
-		return gamesAsWhite;
+		return gameAsWhite;
 	}
 
 	public Game removeGamesAsWhite(Game gamesAsWhite) {
-		getGamesAsWhite().remove(gamesAsWhite);
+		getGamesAsWhite().remove(gamesAsWhite.getId());
 		gamesAsWhite.setWhitePlayer(null);
 
 		return gamesAsWhite;
 	}
 
-	public List<Game> getGamesAsBlack() {
+	public Map<Integer, Game> getGamesAsBlack() {
 		return this.gamesAsBlack;
 	}
 
-	public void setGamesAsBlack(List<Game> gamesAsBlack) {
+	public void setGamesAsBlack(Map<Integer, Game> gamesAsBlack) {
 		this.gamesAsBlack = gamesAsBlack;
 	}
 
-	public Game addGamesAsBlack(Game gamesAsBlack) {
-		getGamesAsBlack().add(gamesAsBlack);
-		gamesAsBlack.setBlackPlayer(this);
+	public Game addGamesAsBlack(Game gameAsBlack) {
+		getGamesAsBlack().put(gameAsBlack.getId(), gameAsBlack);
+		gameAsBlack.setBlackPlayer(this);
 
-		return gamesAsBlack;
+		return gameAsBlack;
 	}
 
-	public Game removeGamesAsBlack(Game gamesAsBlack) {
-		getGamesAsBlack().remove(gamesAsBlack);
-		gamesAsBlack.setBlackPlayer(null);
+	public Game removeGamesAsBlack(Game gameAsBlack) {
+		getGamesAsBlack().remove(gameAsBlack.getId());
+		gameAsBlack.setBlackPlayer(null);
 
-		return gamesAsBlack;
+		return gameAsBlack;
 	}
 
-	public List<GameResult> getWonGames() {
+	public Map<Integer, GameResult> getWonGames() {
 		return this.wonGames;
 	}
 
-	public void setWonGames(List<GameResult> wonGames) {
+	public void setWonGames(Map<Integer, GameResult> wonGames) {
 		this.wonGames = wonGames;
 	}
 
 	public GameResult addWonGames(GameResult wonGames) {
-		getWonGames().add(wonGames);
+		getWonGames().put(wonGames.getId(), wonGames);
 		wonGames.setWinner(this);
 
 		return wonGames;
 	}
 
 	public GameResult removeWonGames(GameResult wonGames) {
-		getWonGames().remove(wonGames);
+		getWonGames().remove(wonGames.getId());
 		wonGames.setWinner(null);
 
 		return wonGames;
 	}
 
-	public List<GameResult> getLostGames() {
+	public Map<Integer, GameResult> getLostGames() {
 		return this.lostGames;
 	}
 
-	public void setLostGames(List<GameResult> lostGames) {
+	public void setLostGames(Map<Integer, GameResult> lostGames) {
 		this.lostGames = lostGames;
 	}
 
 	public GameResult addLostGames(GameResult lostGames) {
-		getLostGames().add(lostGames);
+		getLostGames().put(lostGames.getId(), lostGames);
 		lostGames.setLoser(this);
 
 		return lostGames;
 	}
 
 	public GameResult removeLostGames(GameResult lostGames) {
-		getLostGames().remove(lostGames);
+		getLostGames().remove(lostGames.getId());
 		lostGames.setLoser(null);
 
 		return lostGames;
 	}
 
-	public List<MemberFee> getMemberFees() {
+	public Map<Integer, MemberFee> getMemberFees() {
 		return this.memberFees;
 	}
 
-	public void setMemberFees(List<MemberFee> memberFees) {
+	public void setMemberFees(Map<Integer, MemberFee> memberFees) {
 		this.memberFees = memberFees;
 	}
 
 	public MemberFee addMemberFee(MemberFee memberFee) {
-		getMemberFees().add(memberFee);
+		getMemberFees().put(memberFee.getId(), memberFee);
 		memberFee.setChessplayer(this);
 
 		return memberFee;
 	}
 
 	public MemberFee removeMemberFee(MemberFee memberFee) {
-		getMemberFees().remove(memberFee);
+		getMemberFees().remove(memberFee.getId());
 		memberFee.setChessplayer(null);
 
 		return memberFee;
 	}
 
-    public List<Tournament> getFirstPlaceTournaments() {
+    public Map<Integer, Tournament> getFirstPlaceTournaments() {
         return firstPlaceTournaments;
     }
 
-    public void setFirstPlaceTournaments(List<Tournament> firstPlaceTournaments) {
+    public void setFirstPlaceTournaments(Map<Integer, Tournament> firstPlaceTournaments) {
         this.firstPlaceTournaments = firstPlaceTournaments;
     }
 
-    public List<Tournament> getSecondPlaceTournaments() {
+    public Tournament addFirstPlaceTournament(Tournament tournament) {
+        getFirstPlaceTournaments().put(tournament.getId(), tournament);
+        tournament.setFirstPlacePlayer(this);
+
+        return tournament;
+    }
+
+    public Tournament removeFirstPlaceTournament(Tournament tournament) {
+        getFirstPlaceTournaments().remove(tournament.getId());
+        tournament.setFirstPlacePlayer(null);
+
+        return tournament;
+    }
+
+    public Map<Integer, Tournament> getSecondPlaceTournaments() {
         return secondPlaceTournaments;
     }
 
-    public void setSecondPlaceTournaments(List<Tournament> secondPlaceTournaments) {
+    public void setSecondPlaceTournaments(Map<Integer, Tournament> secondPlaceTournaments) {
         this.secondPlaceTournaments = secondPlaceTournaments;
     }
 
-    public List<Tournament> getThirdPlaceTournaments() {
+    public Tournament addSecondPlaceTournament(Tournament tournament) {
+        getSecondPlaceTournaments().put(tournament.getId(), tournament);
+        tournament.setSecondPlacePlayer(this);
+
+        return tournament;
+    }
+
+    public Tournament removeSecondPlaceTournament(Tournament tournament) {
+        getSecondPlaceTournaments().remove(tournament.getId());
+        tournament.setSecondPlacePlayer(null);
+
+        return tournament;
+    }
+
+    public Map<Integer, Tournament> getThirdPlaceTournaments() {
         return thirdPlaceTournaments;
     }
 
-    public void setThirdPlaceTournaments(List<Tournament> thirdPlaceTournaments) {
+    public void setThirdPlaceTournaments(Map<Integer, Tournament> thirdPlaceTournaments) {
         this.thirdPlaceTournaments = thirdPlaceTournaments;
+    }
+
+    public Tournament addThirdPlaceTournament(Tournament tournament) {
+        getThirdPlaceTournaments().put(tournament.getId(), tournament);
+        tournament.setThirdPlacePlayer(this);
+
+        return tournament;
+    }
+
+    public Tournament removeThirdPlaceTournament(Tournament tournament) {
+        getThirdPlaceTournaments().remove(tournament.getId());
+        tournament.setThirdPlacePlayer(null);
+
+        return tournament;
     }
 }

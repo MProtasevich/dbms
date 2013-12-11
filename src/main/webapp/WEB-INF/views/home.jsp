@@ -1,6 +1,6 @@
 <%@include file="../include/prelude.jsp" %>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <jsp:include page="../include/header.jsp"/>
 </head>
@@ -8,11 +8,11 @@
 <body>
 <%@include file="../include/navbar.jsp" %>
 
-<div class="container">
-    <h1>Lab1</h1>
-    <p>Lab1</p>
+<div class="${defContainer}" id="main">
+    <div class="${defSpan}">
+        <h1><c:out value="${labelText}"/></h1>
+        <p><c:out value="${labelText}"/></p>
+    </div>
 </div>
-<!-- /container -->
 </body>
-<%@include file="../include/footer.jsp" %>
 </html>
