@@ -40,18 +40,20 @@ public class PlayerController {
 
     @RequestMapping(value = "/add", method = GET)
     public String addPlayer(Model model) {
-        model.addAttribute("newPlayer", new Chessplayer());
+        model.addAttribute("action", ADD_ACTION);
+        model.addAttribute("player", new Chessplayer());
         return FORM_VIEW;
     }
 
     @RequestMapping(value = "/edit/{id}", method = GET)
     public String editPlayer(Model model, @PathVariable int id) {
-        model.addAttribute("editPlayer", chessDAO.getChessplayer(id));
+        model.addAttribute("action", EDIT_ACTION);
+        model.addAttribute("player", chessDAO.getChessplayer(id));
         return FORM_VIEW;
     }
 
     @RequestMapping(value = "/add", method = POST)
-    public String addPlayer(@Valid @ModelAttribute("newPlayer")
+    public String addPlayer(@Valid @ModelAttribute("player")
                             Chessplayer player, BindingResult result,
                             Model model) {
         if(result.hasErrors()) {
@@ -63,7 +65,7 @@ public class PlayerController {
     }
 
     @RequestMapping(value = "/edit", method = POST)
-    public String editPlayer(@Valid @ModelAttribute("editPlayer")
+    public String editPlayer(@Valid @ModelAttribute("player")
                              Chessplayer player, BindingResult result,
                              Model model) {
         if(result.hasErrors()) {

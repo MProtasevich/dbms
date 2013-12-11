@@ -51,7 +51,7 @@ public class LibertyController {
     }
 
     @RequestMapping(value = "/add", method = RequestMethod.POST)
-    public String addLiberty(@Valid @ModelAttribute("newLiberty")
+    public String addLiberty(@Valid @ModelAttribute("liberty")
                              Liberty liberty, BindingResult result) {
         if(result.hasErrors()) {
             return FORM_VIEW;
@@ -61,7 +61,7 @@ public class LibertyController {
     }
 
     @RequestMapping(value = "/edit", method = RequestMethod.POST)
-    public String editLiberty(@Valid @ModelAttribute("editLiberty")
+    public String editLiberty(@Valid @ModelAttribute("liberty")
                               Liberty liberty, BindingResult result) {
         if(result.hasErrors()) {
             return FORM_VIEW;

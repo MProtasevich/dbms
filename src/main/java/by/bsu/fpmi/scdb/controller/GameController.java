@@ -56,7 +56,7 @@ public class GameController {
     }
 
     @RequestMapping(value = "/add", method = POST)
-    public String addPlayer(@Valid @ModelAttribute("newGame")
+    public String addPlayer(@Valid @ModelAttribute("game")
                             Game game, BindingResult result) {
         if(!result.hasErrors()) {
             return LIST_VIEW;
@@ -67,7 +67,7 @@ public class GameController {
 
     @RequestMapping(value = "/edit", method = POST)
     public String editPlayer(Model model,
-                             @Valid @ModelAttribute("editGame") Game game,
+                             @Valid @ModelAttribute("game") Game game,
                              BindingResult result) {
         if(result.hasErrors()) {
             return FORM_VIEW;
