@@ -31,7 +31,7 @@
     <Valve className="org.apache.catalina.valves.CometConnectionManagerValve" />
     -->
 
-    <Resource name="jdbc/MysqlDS"
+    <!--<Resource name="jdbc/MysqlDS"
               url="jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}?characterEncoding=UTF-8"
               driverClassName="com.mysql.jdbc.Driver"
               username="${OPENSHIFT_MYSQL_DB_USERNAME}"
@@ -41,6 +41,27 @@
               maxActive="20"
               maxIdle="5"
               maxWait="10000"
+              />-->
+
+    <Resource name="jdbc/MysqlDS"
+              url="jdbc:mysql://${OPENSHIFT_MYSQL_DB_HOST}:${OPENSHIFT_MYSQL_DB_PORT}/${OPENSHIFT_APP_NAME}?characterEncoding=UTF-8"
+              driverClassName="com.mysql.jdbc.Driver"
+              username="${OPENSHIFT_MYSQL_DB_USERNAME}"
+              password="${OPENSHIFT_MYSQL_DB_PASSWORD}"
+              auth="Container"
+              type="javax.sql.DataSource"
+
+              initialSize="0"
+              maxActive="20"
+              maxIdle="5"
+              minIdle="0"
+              maxWait="10"
+              validationQuery="SELECT 1"
+              testOnBorrow="true"
+              poolPreparedStatements="true"
+              removeAbandoned="true"
+              removeAbandonedTimeout="60"
+              logAbandoned="true"/>
               />
 
     <Resource name="jdbc/PostgreSQLDS"
