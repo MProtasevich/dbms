@@ -10,7 +10,7 @@
                         <i class="icon-edit"></i>
                     </a>
                 </div>
-                <c:set var="player" value="${memberFee.chessplayer}"/>
+                <c:set var="tournament" value="${memberFee.chessplayer}"/>
                 <div class="span7">
                     <b><c:out value="${player.surname} ${player.forename} ${player.middleName} paid ${memberFee.feeAmount} C.U. in ${memberFee.year}"/></b>
                 </div>

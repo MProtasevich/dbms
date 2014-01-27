@@ -2,22 +2,36 @@
 
 <c:if test="${!empty tournaments}">
     <div class="${defContainer}">
-        <c:forEach items="${tournaments}" var="player" varStatus="status">
+        <hr style="border-color: #FFF">
+        <div class="row-fluid">
+            <div class="span1">
+            </div>
+            <div class="span3">
+                <b><c:out value="[Tournament]: Fee"/></b>
+            </div>
+            <div class="span4">
+                <c:out value="Date of start - date of completion}" />
+            </div>
+            <div class="span4">
+                <c:out value="Tournament's system" />
+            </div>
+        </div>
+        <c:forEach items="${tournaments}" var="tournament" varStatus="status">
             <hr>
             <div class="row-fluid">
                 <div class="span1">
-                    <a href="${contextPath}/tournaments/edit/${player.id}" class="btn btn-small">
+                    <a href="${contextPath}/tournaments/edit/${tournament.id}" class="btn btn-small">
                         <i class="icon-edit"></i>
                     </a>
                 </div>
                 <div class="span3">
-                    <b><c:out value="[${player.title}]: ${player.registrationFee}"/></b>
+                    <b><c:out value="[${tournament.title}]: ${tournament.registrationFee}"/></b>
                 </div>
                 <div class="span4">
-                    <c:out value="${player.dateOfStart} - ${player.dateOfCompletion}" />
+                    <c:out value="${tournament.dateOfStart} - ${tournament.dateOfCompletion}" />
                 </div>
                 <div class="span4">
-                    <c:out value="${player.playSystem.systemDescr}" />
+                    <c:out value="${tournament.playSystem.systemDescr}" />
                 </div>
             </div>
         </c:forEach>

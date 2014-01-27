@@ -5,6 +5,20 @@
 
     <c:if test="${!empty games}">
         <div class="${defContainer}">
+            <hr style="border-color: #fff"/>
+            <div class="row-fluid">
+                <div class="span1">
+                </div>
+                <div class="span5">
+                    <b><c:out value="[Tournament]: white player - black player"/></b>
+                </div>
+                <div class="span3">
+                    <c:out value="white debut - black debut" />
+                </div>
+                <div class="span3">
+                    <c:out value="winner - loser" />
+                </div>
+            </div>
             <c:forEach items="${games}" var="category" varStatus="status">
                 <hr>
                 <div class="row-fluid">

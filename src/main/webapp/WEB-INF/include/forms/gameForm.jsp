@@ -36,7 +36,7 @@
         </form:label>
         <div class="controls">
             <form:select path="whitePlayer.id" cssClass="error">
-                <c:forEach items="${players}" var="player">
+                <c:forEach items="${players}" var="tournament">
                     <form:option value="${player.id}" label="${player.surname} ${player.forename} ${player.middleName}"/>
                 </c:forEach>
             </form:select>
@@ -48,7 +48,7 @@
         </form:label>
         <div class="controls">
             <form:select path="blackPlayer.id" cssClass="error">
-                <c:forEach items="${players}" var="player">
+                <c:forEach items="${players}" var="tournament">
                     <form:option value="${player.id}" label="${player.surname} ${player.forename} ${player.middleName}"/>
                 </c:forEach>
             </form:select>
@@ -98,7 +98,7 @@
         </form:label>
         <div class="controls">
             <form:select path="gameResult.winner.id" cssClass="error">
-                <c:forEach items="${players}" var="player">
+                <c:forEach items="${players}" var="tournament">
                     <form:option value="${player.id}" label="${player.surname} ${player.forename} ${player.middleName}"/>
                 </c:forEach>
             </form:select>
@@ -110,7 +110,7 @@
         </form:label>
         <div class="controls">
             <form:select path="gameResult.loser.id" cssClass="error">
-                <c:forEach items="${players}" var="player">
+                <c:forEach items="${players}" var="tournament">
                     <form:option value="${player.id}" label="${player.surname} ${player.forename} ${player.middleName}"/>
                 </c:forEach>
             </form:select>

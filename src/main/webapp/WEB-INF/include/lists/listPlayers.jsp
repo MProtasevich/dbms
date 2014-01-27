@@ -2,6 +2,20 @@
 
 <c:if test="${!empty players}">
     <div class="${defContainer}">
+        <hr style="border-color: #FFF">
+        <div class="row-fluid">
+            <div class="span1">
+            </div>
+            <div class="span5">
+                <b><c:out value="[Chessplayer]"/></b>
+            </div>
+            <div class="span3">
+                <c:out value="Birthdate" />
+            </div>
+            <div class="span3">
+                <c:out value="Player's category" />
+            </div>
+        </div>
         <c:forEach items="${players}" var="player">
             <hr>
             <div class="row-fluid">

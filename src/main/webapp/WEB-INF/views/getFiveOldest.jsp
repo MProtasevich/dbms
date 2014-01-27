@@ -5,6 +5,23 @@
 
     <c:if test="${!empty players}">
         <div class="${defContainer}">
+            <hr style="border-color: #FFF">
+            <div class="row-fluid">
+                <div class="span1">
+                </div>
+                <div class="span5">
+                    <b><c:out value="[Player]"/></b>
+                </div>
+                <div class="span2">
+                    <c:out value="Birthdate" />
+                </div>
+                <div class="span2">
+                    <c:out value="Tournament title" />
+                </div>
+                <div class="span2">
+                    <c:out value="Winnings"/>
+                </div>
+            </div>
             <c:forEach items="${players}" var="player" varStatus="status">
                 <form action="/players/edit/${player.id}" method="GET">
                     <hr>

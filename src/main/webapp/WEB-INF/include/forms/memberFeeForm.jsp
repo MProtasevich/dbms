@@ -29,7 +29,7 @@
         </form:label>
         <div class="controls">
             <form:select path="chessplayer.id" cssClass="error">
-                <c:forEach items="${players}" var="player">
+                <c:forEach items="${players}" var="tournament">
                     <form:option value="${player.id}" label="${player.surname} ${player.forename} ${player.middleName}"/>
                 </c:forEach>
             </form:select>
