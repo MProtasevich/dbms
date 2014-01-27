@@ -6,7 +6,7 @@
             <hr>
             <div class="row-fluid">
                 <div class="span1">
-                    <a href="${contextPath}/games/edit/${category.id}" class="btn btn-small">
+                    <a href="${contextPath}/games/edit/${game.id}" class="btn btn-small">
                         <i class="icon-edit"></i>
                     </a>
                 </div>
